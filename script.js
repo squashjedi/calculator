@@ -2,6 +2,7 @@ const numbers = document.querySelectorAll('.number')
 const display = document.querySelector('#display')
 const keypadOperators = document.querySelectorAll('.operators')
 const decimalPoint = document.querySelector('.point')
+const percentage = document.querySelector('.percentage')
 const toggle = document.querySelector('.toggle')
 const equals = document.querySelector('.equals')
 const cancel = document.querySelector('.cancel')
@@ -20,9 +21,6 @@ function calculate(equation) {
     },
     '+': function (a, b) {
       return a + b
-    },
-    '%': function (a, b) {
-      return a % b
     },
   }
 
@@ -81,7 +79,7 @@ keypadOperators.forEach(keypadOperator => {
 })
 
 decimalPoint.addEventListener('click', () => {
-  if (equation.length === 0) {
+  if (equation.length === 0 || equation.length === 2) {
     equation.push('0.')
     display.textContent = '0.'
   } else if (equation.length === 1) {
@@ -115,6 +113,16 @@ toggle.addEventListener('click', () => {
     display.textContent = equation[0]
   } else if (equation.length === 3) {
     equation[2] = equation[2].charAt(0) === "-" ? equation[2].substring(1) : `-${equation[2]}`
+    display.textContent = equation[2]
+  }
+})
+
+percentage.addEventListener('click', () => {
+  if (equation.length === 1) {
+    equation[0] = parseFloat((Number(equation[0]) / 100).toFixed(3)).toString()
+    display.textContent = equation[0]
+  } else if (equation.length === 3) {
+    equation[2] = parseFloat((Number(equation[2]) / 100).toFixed(3)).toString()
     display.textContent = equation[2]
   }
 })
