@@ -135,6 +135,7 @@ percentage.addEventListener('click', () => {
   if (equation.length === 1) {
     equation[0] = parseFloat((Number(equation[0]) / 100).toFixed(3)).toString()
     display.textContent = equation[0]
+    arithmetic.textContent = format(equation)
   } else if (equation.length === 3) {
     equation[2] = parseFloat((Number(equation[2]) / 100).toFixed(3)).toString()
     display.textContent = equation[2]
