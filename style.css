@@ -67,6 +67,10 @@ main {
   width: 60px;
 }
 
+#buttons > div:hover {
+  opacity: .7;
+}
+
 .double {
   grid-column-start: 1;
   grid-column-end: 3;
