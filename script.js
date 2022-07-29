@@ -3,6 +3,7 @@ const display = document.querySelector('#display')
 const keypadOperators = document.querySelectorAll('.operators')
 const decimalPoint = document.querySelector('.point')
 const percentage = document.querySelector('.percentage')
+const arithmetic = document.querySelector('#arithmetic')
 const toggle = document.querySelector('.toggle')
 const equals = document.querySelector('.equals')
 const cancel = document.querySelector('.cancel')
@@ -41,15 +42,17 @@ numbers.forEach(number => {
     if (equation[0] === "-0") {
       display.textContent = display.textContent.replace(/.$/, e.target.textContent)
       equation[0] = display.textContent
+      arithmetic.textContent = display.textContent
     } else if (equation.length === 0 && e.target.textContent === '0') {
       return
     } else if (equation.length === 0) {
       display.textContent = e.target.textContent
       equation.push(e.target.textContent)
+      arithmetic.textContent = display.textContent
     } else if (equation.length === 1) {
       display.textContent = display.textContent.concat(e.target.textContent)
       equation[0] = display.textContent
-      console.log(equation[0])
+      arithmetic.textContent = format(equation)
     } else if (equation.length === 2) {
       display.textContent = e.target.textContent
       equation.push(e.target.textContent)
@@ -69,6 +72,7 @@ keypadOperators.forEach(keypadOperator => {
       return
     } else if (equation.length === 1) {
       equation.push(e.target.textContent)
+      arithmetic.textContent = format(equation)
     } else if (equation.length === 2) {
       equation[1] = e.target.textContent
     } else if (equation.length === 3) {
@@ -77,6 +81,12 @@ keypadOperators.forEach(keypadOperator => {
     }
   })
 })
+
+function format(equation) {
+  return equation.reduce((accumulator, figure) => {
+    return accumulator + ' ' + figure
+  })
+}
 
 decimalPoint.addEventListener('click', () => {
   if (equation.length === 0 || equation.length === 2) {
@@ -96,11 +106,13 @@ decimalPoint.addEventListener('click', () => {
 cancel.addEventListener('click', () => {
   equation = []
   display.textContent = 0
+  arithmetic.textContent = display.textContent
 })
 
 equals.addEventListener('click', () => {
   if (equation.length === 3) {
     updateDisplay()
+    arithmetic.textContent = display.textContent
   }
 })
 
@@ -108,9 +120,11 @@ toggle.addEventListener('click', () => {
   if (equation.length === 0) {
     display.textContent = "-0"
     equation[0] = display.textContent
+    arithmetic.textContent = display.textContent
   } else if (equation.length === 1) {
     equation[0] = equation[0].charAt(0) === "-" ? equation[0].substring(1) : `-${equation[0]}`
     display.textContent = equation[0]
+    arithmetic.textContent = display.textContent
   } else if (equation.length === 3) {
     equation[2] = equation[2].charAt(0) === "-" ? equation[2].substring(1) : `-${equation[2]}`
     display.textContent = equation[2]

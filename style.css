@@ -23,15 +23,23 @@ main {
 }
 
 #display {
-  height: 60px;
+  height: 80px;
   font-size: 50px;
   background-color: #bbb;
   border-radius: 10px;
   display: flex;
   color: black;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-end;
   padding: 10px;
+}
+
+#arithmetic {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 32px 32px;
+  color: #333;
 }
 
 #buttons {
