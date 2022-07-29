@@ -7,6 +7,8 @@ const arithmetic = document.querySelector('#arithmetic')
 const toggle = document.querySelector('.toggle')
 const equals = document.querySelector('.equals')
 const cancel = document.querySelector('.cancel')
+const buttons = document.querySelector('#buttons')
+
 let equation = []
 
 function calculate(equation) {
@@ -36,23 +38,22 @@ function updateDisplay() {
   display.textContent = equation[0]
 }
 
-
 numbers.forEach(number => {
   number.addEventListener('click', (e) => {
+    if (equation.length === 2 && e.target.textContent === "0") {
+      return
+    }
     if (equation[0] === "-0") {
       display.textContent = display.textContent.replace(/.$/, e.target.textContent)
       equation[0] = display.textContent
-      arithmetic.textContent = display.textContent
     } else if (equation.length === 0 && e.target.textContent === '0') {
       return
     } else if (equation.length === 0) {
       display.textContent = e.target.textContent
       equation.push(e.target.textContent)
-      arithmetic.textContent = display.textContent
     } else if (equation.length === 1) {
       display.textContent = display.textContent.concat(e.target.textContent)
       equation[0] = display.textContent
-      arithmetic.textContent = format(equation)
     } else if (equation.length === 2) {
       display.textContent = e.target.textContent
       equation.push(e.target.textContent)
@@ -78,6 +79,7 @@ keypadOperators.forEach(keypadOperator => {
     } else if (equation.length === 3) {
       updateDisplay()
       equation.push(e.target.textContent)
+      arithmetic.textContent = format(equation)
     }
   })
 })
@@ -106,13 +108,13 @@ decimalPoint.addEventListener('click', () => {
 cancel.addEventListener('click', () => {
   equation = []
   display.textContent = 0
-  arithmetic.textContent = display.textContent
+  arithmetic.textContent = ''
 })
 
 equals.addEventListener('click', () => {
   if (equation.length === 3) {
     updateDisplay()
-    arithmetic.textContent = display.textContent
+    arithmetic.textContent = ''
   }
 })
 
@@ -120,11 +122,9 @@ toggle.addEventListener('click', () => {
   if (equation.length === 0) {
     display.textContent = "-0"
     equation[0] = display.textContent
-    arithmetic.textContent = display.textContent
   } else if (equation.length === 1) {
     equation[0] = equation[0].charAt(0) === "-" ? equation[0].substring(1) : `-${equation[0]}`
     display.textContent = equation[0]
-    arithmetic.textContent = display.textContent
   } else if (equation.length === 3) {
     equation[2] = equation[2].charAt(0) === "-" ? equation[2].substring(1) : `-${equation[2]}`
     display.textContent = equation[2]
@@ -135,7 +135,6 @@ percentage.addEventListener('click', () => {
   if (equation.length === 1) {
     equation[0] = parseFloat((Number(equation[0]) / 100).toFixed(3)).toString()
     display.textContent = equation[0]
-    arithmetic.textContent = format(equation)
   } else if (equation.length === 3) {
     equation[2] = parseFloat((Number(equation[2]) / 100).toFixed(3)).toString()
     display.textContent = equation[2]
